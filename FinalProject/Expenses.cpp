@@ -8,8 +8,6 @@
 int main() {
     FileExpenseStorage storage("expenses.txt");
 
-    std::cout << "Hi";
-
     ExpenseManager manager;
     ExpenseUI ui(manager, storage);
 
