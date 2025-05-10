@@ -8,19 +8,26 @@ ExpenseUI::ExpenseUI(ExpenseManager& manager, IExpenseStorage& storage)
 void ExpenseUI::showMenu() {
     int choice;
 
-    do {
-        std::cout << COLOR_CYAN << "\n=== Expense Tracker ===\n" << COLOR_RESET;
-        std::cout << COLOR_YELLOW << "1. Add Expense\n";
-        std::cout << "2. List All Expenses\n";
-        std::cout << "3. List Expenses by Category\n";
-        std::cout << "4. List Expenses by Date\n";
-        std::cout << "5. Show Total Expenses\n";
-        std::cout << "6. Save Expenses to File\n";
-        std::cout << "7. Load Expenses from File\n";
-        std::cout << "0. Exit\n" << COLOR_RESET;
+    while (true) {
+        bool stop = false;
+
+        std::cout << COLOR_CYAN << "\n===== Expense Tracker =====\n" << COLOR_RESET;
+        std::cout << COLOR_GREEN << "1." << COLOR_YELLOW << " Add Expense\n";
+        std::cout << COLOR_GREEN << "2." << COLOR_YELLOW << " List All Expenses\n";
+        std::cout << COLOR_GREEN << "3." << COLOR_YELLOW << " List Expenses by Category\n";
+        std::cout << COLOR_GREEN << "4." << COLOR_YELLOW << " List Expenses by Date\n";
+        std::cout << COLOR_GREEN << "5." << COLOR_YELLOW << " Show Total Expenses\n";
+        std::cout << COLOR_GREEN << "6." << COLOR_YELLOW << " Save Expenses to File\n";
+        std::cout << COLOR_GREEN << "7." << COLOR_YELLOW << " Load Expenses from File\n";
+        std::cout << COLOR_GREEN << "0." << COLOR_YELLOW << " Exit\n" << COLOR_RESET;
         std::cout << COLOR_BOLD << "Select an option: " << COLOR_RESET;
         std::cin >> choice;
-        std::cin.ignore();
+        if (std::cin.fail()) {
+            std::cout << COLOR_RED << "Invalid Input" << COLOR_RESET << '\n';
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
 
         switch (choice) {
         case 1: addExpense(); break;
@@ -30,24 +37,36 @@ void ExpenseUI::showMenu() {
         case 5: showTotal(); break;
         case 6: saveExpenses(); break;
         case 7: loadExpenses(); break;
-        case 0: std::cout << COLOR_GREEN << "Goodbye!\n" << COLOR_RESET; break;
+        case 0: std::cout << COLOR_GREEN << "Goodbye!\n" << COLOR_RESET; stop = true; break;
         default: std::cout << COLOR_RED << "Invalid choice.\n" << COLOR_RESET;
         }
 
-    } while (choice != 0);
+        if (stop) { break; }
+    }
 }
 
 void ExpenseUI::addExpense() {
     std::string category, date;
     double amount;
 
+    std::cin.ignore();
     std::cout << "Enter category: ";
     std::getline(std::cin, category);
 
-    std::cout << "Enter amount: ";
-    std::cin >> amount;
-    std::cin.ignore();
+    while (true) {
+        std::cout << "Enter amount: ";
+        std::cin >> amount;
+        if (std::cin.fail()) {
+            std::cout << COLOR_RED << "Invalid Input" << COLOR_RESET << '\n';
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        else {
+            break;
+        }
+    }
 
+    std::cin.ignore();
     std::cout << "Enter date (DD-MM-YYYY): ";
     std::getline(std::cin, date);
 
@@ -67,6 +86,8 @@ void ExpenseUI::listExpenses() {
 
 void ExpenseUI::listByCategory() {
     std::string category;
+
+    std::cin.ignore();
     std::cout << "Enter category: ";
     std::getline(std::cin, category);
 
@@ -81,6 +102,8 @@ void ExpenseUI::listByCategory() {
 
 void ExpenseUI::listByDate() {
     std::string date;
+
+    std::cin.ignore();
     std::cout << "Enter date (DD-MM-YYYY): ";
     std::getline(std::cin, date);
 

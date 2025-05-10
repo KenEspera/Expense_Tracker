@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Expense" Collapsed="true">
+    <Position X="6.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAACAAAIAAAAAAAAAAAAgAAAAIAIAQAAAAA=</HashCode>
+      <FileName>Expense.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpenseManager" Collapsed="true">
+    <Position X="9.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAwAAAAAAEAQAAAAAAAAAAAAAAUAAAA=</HashCode>
+      <FileName>ExpenseManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpenseUI" Collapsed="true">
+    <Position X="4.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAIAAAAAACAAAAAAgAAA0AAAAAAAABAACAAAAAEI=</HashCode>
+      <FileName>ExpenseUI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExpenseStorage" Collapsed="true">
+    <Position X="5.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAABAAICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileExpenseStorage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IExpenseStorage" Collapsed="true">
+    <Position X="8.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAICAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IExpenseStorage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
