@@ -16,7 +16,9 @@ private:
     void addExpense();
     void listExpenses();
     void listByCategory();
-    void listByDate();
+    void listByDay();
+    void listByMonth();
+    void listByYear();
     void showTotal();
     void saveExpenses();
     void loadExpenses();

@@ -1,6 +1,7 @@
 #include "ExpenseUI.h"
 #include "Color.h"
 #include <iostream>
+#include <string>
 
 ExpenseUI::ExpenseUI(ExpenseManager& manager, IExpenseStorage& storage)
     : manager(manager), storage(storage) {}
@@ -33,7 +34,25 @@ void ExpenseUI::showMenu() {
         case 1: addExpense(); break;
         case 2: listExpenses(); break;
         case 3: listByCategory(); break;
-        case 4: listByDate(); break;
+        case 4:
+    int subChoice;
+    std::cout << "1. Day\n2. Month\n3. Year\nChoose: ";
+    std::cin >> subChoice;
+    if (std::cin.fail()) {
+        std::cout << COLOR_RED << "Invalid Input" << COLOR_RESET << '\n';
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        continue;
+    }
+
+    switch (subChoice) {
+        case 1: listByDay(); break;
+        case 2: listByMonth(); break;
+        case 3: listByYear(); break;
+        default: std::cout << COLOR_RED << "Invalid sub-choice." << COLOR_RESET << '\n';
+    }
+    break;
+
         case 5: showTotal(); break;
         case 6: saveExpenses(); break;
         case 7: loadExpenses(); break;
@@ -50,13 +69,16 @@ void ExpenseUI::addExpense() {
     double amount;
 
     std::cin.ignore();
-    std::cout << "Enter category: ";
+    std::cout << "Enter category (b to back): ";
     std::getline(std::cin, category);
+    if (category == "b" || category == "B") {
+		ExpenseUI::showMenu();
+    }
 
     while (true) {
         std::cout << "Enter amount: ";
         std::cin >> amount;
-        if (std::cin.fail()) {
+        if (std::cin.fail() || amount <= 0) {
             std::cout << COLOR_RED << "Invalid Input" << COLOR_RESET << '\n';
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -67,8 +89,12 @@ void ExpenseUI::addExpense() {
     }
 
     std::cin.ignore();
-    std::cout << "Enter date (DD-MM-YYYY): ";
+    std::cout << "Enter date (YYYY-MM-DD): ";
     std::getline(std::cin, date);
+
+    if (date.empty() || date.find(' ') != std::string::npos) {
+        date = "No Specific Date Added";
+    }
 
     manager.addExpense(Expense(category, amount, date));
     std::cout << COLOR_GREEN << "Expense added successfully.\n" << COLOR_RESET;
@@ -100,21 +126,48 @@ void ExpenseUI::listByCategory() {
     }
 }
 
-void ExpenseUI::listByDate() {
+void ExpenseUI::listByDay() {
     std::string date;
 
     std::cin.ignore();
-    std::cout << "Enter date (DD-MM-YYYY): ";
+    std::cout << "Enter exact date (YYYY-MM-DD): ";
     std::getline(std::cin, date);
 
-    auto filtered = manager.getExpensesByDate(date);
-    std::cout << COLOR_BOLD << "Expenses on: " << date << "\n" << COLOR_RESET;
-    for (const auto& e : filtered) {
+    auto results = manager.getExpensesByExactDate(date);
+    for (const auto& e : results)
         std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
-            << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
-            << " | " << COLOR_GREEN << "$" << e.getAmount() << COLOR_RESET << '\n';
-    }
+        << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
+        << " | $" << COLOR_GREEN << e.getAmount() << COLOR_RESET << '\n';
 }
+
+void ExpenseUI::listByMonth() {
+    std::string month;
+
+    std::cin.ignore();
+    std::cout << "Enter month (YYYY-MM): ";
+    std::getline(std::cin, month);
+
+    auto results = manager.getExpensesByMonth(month);
+    for (const auto& e : results)
+        std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
+        << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
+        << " | $" << COLOR_GREEN << e.getAmount() << COLOR_RESET << '\n';
+}
+
+void ExpenseUI::listByYear() {
+    std::string year;
+
+    std::cin.ignore();
+    std::cout << "Enter year (YYYY): ";
+    std::getline(std::cin, year);
+
+    auto results = manager.getExpensesByYear(year);
+    for (const auto& e : results)
+        std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
+        << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
+        << " | $" << COLOR_GREEN << e.getAmount() << COLOR_RESET << '\n';
+}
+
 
 void ExpenseUI::showTotal() {
     double total = manager.getTotalExpenses();
