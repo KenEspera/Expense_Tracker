@@ -114,8 +114,11 @@ void ExpenseUI::listByCategory() {
     std::string category;
 
     std::cin.ignore();
-    std::cout << "Enter category: ";
+    std::cout << "Enter category (b to back): ";
     std::getline(std::cin, category);
+    if (category == "b" || category == "B") {
+        ExpenseUI::showMenu();
+    }
 
     auto filtered = manager.getExpensesByCategory(category);
     std::cout << COLOR_BOLD << "Expenses in category: " << category << "\n" << COLOR_RESET;
@@ -130,8 +133,11 @@ void ExpenseUI::listByDay() {
     std::string date;
 
     std::cin.ignore();
-    std::cout << "Enter exact date (YYYY-MM-DD): ";
+    std::cout << "Enter exact date (YYYY-MM-DD) or 'b' to back: ";
     std::getline(std::cin, date);
+    if (date == "b" || date == "B") {
+        ExpenseUI::showMenu();
+    }
 
     auto results = manager.getExpensesByExactDate(date);
     for (const auto& e : results)
@@ -144,8 +150,11 @@ void ExpenseUI::listByMonth() {
     std::string month;
 
     std::cin.ignore();
-    std::cout << "Enter month (YYYY-MM): ";
+    std::cout << "Enter month (YYYY-MM) or 'b' to back: ";
     std::getline(std::cin, month);
+    if (month == "b" || month == "B") {
+        ExpenseUI::showMenu();
+    }
 
     auto results = manager.getExpensesByMonth(month);
     for (const auto& e : results)
@@ -158,8 +167,11 @@ void ExpenseUI::listByYear() {
     std::string year;
 
     std::cin.ignore();
-    std::cout << "Enter year (YYYY): ";
+    std::cout << "Enter year (YYYY) or 'b' to back: ";
     std::getline(std::cin, year);
+    if (year == "b" || year == "B") {
+        ExpenseUI::showMenu();
+    }
 
     auto results = manager.getExpensesByYear(year);
     for (const auto& e : results)
