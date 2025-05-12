@@ -8,17 +8,16 @@ FileExpenseStorage::FileExpenseStorage(const std::string& filename)
 
 void FileExpenseStorage::save(const std::vector<Expense>& expenses) {
     std::ofstream outFile(filename);
+
     if (!outFile.is_open()) {
         std::cerr << "Failed to open file for saving.\n";
         return;
     }
-
     for (const auto& expense : expenses) {
         outFile << expense.getCategory() << ","
             << expense.getAmount() << ","
             << expense.getDate() << "\n";
     }
-
     outFile.close();
 }
 
@@ -30,7 +29,6 @@ std::vector<Expense> FileExpenseStorage::load() {
         std::cerr << "Failed to open file for loading.\n";
         return expenses;
     }
-
     std::string line;
     while (std::getline(inFile, line)) {
         std::istringstream ss(line);
@@ -44,7 +42,6 @@ std::vector<Expense> FileExpenseStorage::load() {
             expenses.emplace_back(category, amount, date);
         }
     }
-
     inFile.close();
     return expenses;
 }

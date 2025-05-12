@@ -27,40 +27,20 @@ std::vector<Expense> ExpenseManager::getExpensesByCategory(const std::string& in
             result.push_back(e);
         }
     }
-
     return result;
 }
 
-std::vector<Expense> ExpenseManager::getExpensesByYear(const std::string& year) const {
+std::vector<Expense> ExpenseManager::getExpensesByDate(const std::string& fragment) const {
     std::vector<Expense> result;
+
     for (const auto& e : expenses) {
-        if (e.getDate().substr(0, 4) == year)
+        if (e.getDate().rfind(fragment, 0) == 0) {
             result.push_back(e);
+        }
     }
     std::sort(result.begin(), result.end(), [](const Expense& a, const Expense& b) {
         return a.getDate() < b.getDate();
         });
-    return result;
-}
-
-std::vector<Expense> ExpenseManager::getExpensesByMonth(const std::string& yearMonth) const {
-    std::vector<Expense> result;
-    for (const auto& e : expenses) {
-        if (e.getDate().substr(0, 7) == yearMonth)
-            result.push_back(e);
-    }
-    std::sort(result.begin(), result.end(), [](const Expense& a, const Expense& b) {
-        return a.getDate() < b.getDate();
-        });
-    return result;
-}
-
-std::vector<Expense> ExpenseManager::getExpensesByExactDate(const std::string& fullDate) const {
-    std::vector<Expense> result;
-    for (const auto& e : expenses) {
-        if (e.getDate() == fullDate)
-            result.push_back(e);
-    }
     return result;
 }
 

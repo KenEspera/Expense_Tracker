@@ -34,25 +34,7 @@ void ExpenseUI::showMenu() {
         case 1: addExpense(); break;
         case 2: listExpenses(); break;
         case 3: listByCategory(); break;
-        case 4:
-    int subChoice;
-    std::cout << "1. Day\n2. Month\n3. Year\nChoose: ";
-    std::cin >> subChoice;
-    if (std::cin.fail()) {
-        std::cout << COLOR_RED << "Invalid Input" << COLOR_RESET << '\n';
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        continue;
-    }
-
-    switch (subChoice) {
-        case 1: listByDay(); break;
-        case 2: listByMonth(); break;
-        case 3: listByYear(); break;
-        default: std::cout << COLOR_RED << "Invalid sub-choice." << COLOR_RESET << '\n';
-    }
-    break;
-
+        case 4: listByDate(); break;
         case 5: showTotal(); break;
         case 6: saveExpenses(); break;
         case 7: loadExpenses(); break;
@@ -122,64 +104,33 @@ void ExpenseUI::listByCategory() {
 
     auto filtered = manager.getExpensesByCategory(category);
     std::cout << COLOR_BOLD << "Expenses in category: " << category << "\n" << COLOR_RESET;
+    if (filtered.empty()) {
+        std::cout << "No category found" << '\n';
+    }
     for (const auto& e : filtered) {
-        std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
-            << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
-            << " | " << COLOR_GREEN << "$" << e.getAmount() << COLOR_RESET << '\n';
+            std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
+                << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
+                << " | " << COLOR_GREEN << "$" << e.getAmount() << COLOR_RESET << '\n';
     }
 }
 
-void ExpenseUI::listByDay() {
-    std::string date;
+void ExpenseUI::listByDate() {
+    std::string fragment;
 
     std::cin.ignore();
-    std::cout << "Enter exact date (YYYY-MM-DD) or 'b' to back: ";
-    std::getline(std::cin, date);
-    if (date == "b" || date == "B") {
-        ExpenseUI::showMenu();
+    std::cout << "Enter date, month, or year (e.g., 2025 or 2025-05): ";
+    std::getline(std::cin, fragment);
+
+    auto filtered = manager.getExpensesByDate(fragment);
+    if (filtered.empty()) {
+        std::cout << "No expenses found.\n";
     }
-
-    auto results = manager.getExpensesByExactDate(date);
-    for (const auto& e : results)
-        std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
-        << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
-        << " | $" << COLOR_GREEN << e.getAmount() << COLOR_RESET << '\n';
-}
-
-void ExpenseUI::listByMonth() {
-    std::string month;
-
-    std::cin.ignore();
-    std::cout << "Enter month (YYYY-MM) or 'b' to back: ";
-    std::getline(std::cin, month);
-    if (month == "b" || month == "B") {
-        ExpenseUI::showMenu();
+    else {
+        for (const auto& e : filtered) {
+            std::cout << e.getDate() << " | " << e.getCategory() << " | $" << e.getAmount() << '\n';
+        }
     }
-
-    auto results = manager.getExpensesByMonth(month);
-    for (const auto& e : results)
-        std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
-        << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
-        << " | $" << COLOR_GREEN << e.getAmount() << COLOR_RESET << '\n';
 }
-
-void ExpenseUI::listByYear() {
-    std::string year;
-
-    std::cin.ignore();
-    std::cout << "Enter year (YYYY) or 'b' to back: ";
-    std::getline(std::cin, year);
-    if (year == "b" || year == "B") {
-        ExpenseUI::showMenu();
-    }
-
-    auto results = manager.getExpensesByYear(year);
-    for (const auto& e : results)
-        std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
-        << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
-        << " | $" << COLOR_GREEN << e.getAmount() << COLOR_RESET << '\n';
-}
-
 
 void ExpenseUI::showTotal() {
     double total = manager.getTotalExpenses();

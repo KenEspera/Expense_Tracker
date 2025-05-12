@@ -10,9 +10,7 @@ public:
     void addExpense(const Expense& expense);
     std::vector<Expense> getAllExpenses() const;
     std::vector<Expense> getExpensesByCategory(const std::string& category) const;
-    std::vector<Expense> getExpensesByYear(const std::string& year) const;
-    std::vector<Expense> getExpensesByMonth(const std::string& yearMonth) const;
-    std::vector<Expense> getExpensesByExactDate(const std::string& fullDate) const;
+    std::vector<Expense> getExpensesByDate(const std::string& fragment) const;
     double getTotalExpenses() const;
 
 private:
