@@ -105,7 +105,7 @@ void ExpenseUI::listByCategory() {
     auto filtered = manager.getExpensesByCategory(category);
     std::cout << COLOR_BOLD << "Expenses in category: " << category << "\n" << COLOR_RESET;
     if (filtered.empty()) {
-        std::cout << "No category found" << '\n';
+        std::cout << COLOR_RED << "No category found" << COLOR_RESET << '\n';
     }
     for (const auto& e : filtered) {
             std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
@@ -118,16 +118,18 @@ void ExpenseUI::listByDate() {
     std::string fragment;
 
     std::cin.ignore();
-    std::cout << "Enter date, month, or year (e.g., 2025 or 2025-05): ";
+	std::cout << COLOR_BOLD << "Enter date: " << COLOR_RESET;
     std::getline(std::cin, fragment);
 
     auto filtered = manager.getExpensesByDate(fragment);
     if (filtered.empty()) {
-        std::cout << "No expenses found.\n";
+        std::cout << COLOR_RED << "No expenses found." << COLOR_RESET << '\n';
     }
     else {
         for (const auto& e : filtered) {
-            std::cout << e.getDate() << " | " << e.getCategory() << " | $" << e.getAmount() << '\n';
+            std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
+                << " | " << COLOR_BLUE << e.getCategory() << COLOR_RESET
+                << " | " << COLOR_GREEN << "$" << e.getAmount() << COLOR_RESET << '\n';
         }
     }
 }
