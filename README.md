@@ -23,6 +23,7 @@ This is a simple, modular C++ console application to manage personal expenses. I
 
 
 Feature	Description
+
 Add Expense:              Prompts user for amount, category, and date; adds to memory list
 
 List All Expenses:	      Displays all stored expenses with color formatting
