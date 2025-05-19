@@ -103,7 +103,11 @@ void ExpenseUI::listByCategory() {
 
     std::cout << "Search for category (b to back): ";
     std::getline(std::cin, category);
-    if (category == "b" || category == "B") {
+
+    if (category.empty() || category.find(' ') != std::string::npos) {
+        std::cout << COLOR_RED << "Invalid Input" << COLOR_RESET << '\n';
+        ExpenseUI::showMenu();
+    } else if (category == "b" || category == "B") {
         ExpenseUI::showMenu();
     }
 
@@ -125,10 +129,13 @@ void ExpenseUI::listByCategory() {
 void ExpenseUI::listByDate() {
     std::string date;
 
-    std::cin.ignore();
     std::cout << "Enter date (YYYY-MM-DD or 'b' to back): ";
     std::getline(std::cin, date);
-    if (date == "b" || date == "B") {
+
+    if (date.empty() || date.find(' ') != std::string::npos) {
+        std::cout << COLOR_RED << "Invalid Input" << COLOR_RESET << '\n';
+        ExpenseUI::showMenu();
+    } else if (date == "b" || date == "B") {
         ExpenseUI::showMenu();
     }
 
