@@ -101,7 +101,6 @@ void ExpenseUI::listExpenses() {
 void ExpenseUI::listByCategory() {
     std::string category;
 
-    std::cin.ignore();
     std::cout << "Search for category (b to back): ";
     std::getline(std::cin, category);
     if (category == "b" || category == "B") {
@@ -112,8 +111,8 @@ void ExpenseUI::listByCategory() {
     std::cout << COLOR_BOLD << "\nExpenses in category: " << category << "\n" << COLOR_RESET;
     if (filtered.empty()) {
         std::cout << COLOR_RED << "No category found" << COLOR_RESET << '\n';
+        ExpenseUI::showMenu();
     }
-
     std::cout << COLOR_CYAN << "========== Expense ==========\n" << COLOR_RESET;
     for (const auto& e : filtered) {
             std::cout << COLOR_YELLOW << e.getDate() << COLOR_RESET
@@ -136,6 +135,7 @@ void ExpenseUI::listByDate() {
     auto filtered = manager.getExpensesByDate(date);
     if (filtered.empty()) {
         std::cout << COLOR_RED << "No expenses found." << COLOR_RESET << '\n';
+        ExpenseUI::showMenu();
     }
     else {
         for (const auto& e : filtered) {

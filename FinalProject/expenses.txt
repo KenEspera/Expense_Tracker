@@ -1,2 +1,2 @@
-Grocery,5000,2025
-Loan,30000,2025-05-06
+Grocery,5000,2025-05-05
+Food,300,No Date Added
