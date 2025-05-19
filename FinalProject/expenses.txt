@@ -1,2 +1,2 @@
 Grocery,5000,2025-05-05
-Food,300,No Date Added
+Food,300,0000-00-00
