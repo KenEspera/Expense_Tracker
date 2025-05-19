@@ -115,13 +115,16 @@ void ExpenseUI::listByCategory() {
 }
 
 void ExpenseUI::listByDate() {
-    std::string fragment;
+    std::string date;
 
     std::cin.ignore();
-	std::cout << COLOR_BOLD << "Enter date: " << COLOR_RESET;
-    std::getline(std::cin, fragment);
+    std::cout << "Enter date (YYYY-MM-DD or 'b' to back): ";
+    std::getline(std::cin, date);
+    if (date == "b" || date == "B") {
+        ExpenseUI::showMenu();
+    }
 
-    auto filtered = manager.getExpensesByDate(fragment);
+    auto filtered = manager.getExpensesByDate(date);
     if (filtered.empty()) {
         std::cout << COLOR_RED << "No expenses found." << COLOR_RESET << '\n';
     }

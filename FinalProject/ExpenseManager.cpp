@@ -30,11 +30,11 @@ std::vector<Expense> ExpenseManager::getExpensesByCategory(const std::string& in
     return result;
 }
 
-std::vector<Expense> ExpenseManager::getExpensesByDate(const std::string& fragment) const {
+std::vector<Expense> ExpenseManager::getExpensesByDate(const std::string& date) const {
     std::vector<Expense> result;
 
     for (const auto& e : expenses) {
-        if (e.getDate().rfind(fragment, 0) == 0) {
+        if (e.getDate().rfind(date, 0) == 0) {
             result.push_back(e);
         }
     }
