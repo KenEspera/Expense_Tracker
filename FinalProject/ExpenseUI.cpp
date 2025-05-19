@@ -78,7 +78,7 @@ void ExpenseUI::addExpense() {
     std::getline(std::cin, date);
 
     if (date.empty() || date.find(' ') != std::string::npos) {
-        date = "No Specific Date Added";
+        date = "No Date Added";
     }
 
     manager.addExpense(Expense(category, amount, date));
